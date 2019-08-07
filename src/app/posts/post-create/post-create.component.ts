@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { PostService } from '../post.service';
 
 @Component({
   selector: 'app-post-create',
@@ -11,16 +12,15 @@ export class PostCreateComponent implements OnInit {
     title: new FormControl(null, Validators.required),
     content: new FormControl(null, Validators.required)
   });
-  @Output()
-  postCreated: EventEmitter<Post> = new EventEmitter<Post>();
 
-  constructor() {}
+  constructor(private postSvc: PostService) {}
 
   ngOnInit() {}
 
   onAddPost() {
     if (this.formGroup.valid) {
-      this.postCreated.emit(this.formGroup.value);
+      this.postSvc.addPost(this.formGroup.value);
+      this.formGroup.reset();
     }
   }
 }
