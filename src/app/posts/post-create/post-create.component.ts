@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-post-create',
@@ -6,14 +7,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./post-create.component.scss']
 })
 export class PostCreateComponent implements OnInit {
-  enteredValue: string;
-  newPost: string;
+  formGroup: FormGroup = new FormGroup({
+    title: new FormControl(null, Validators.required),
+    content: new FormControl(null, Validators.required)
+  });
+  @Output()
+  postCreated: EventEmitter<Post> = new EventEmitter<Post>();
 
   constructor() {}
 
   ngOnInit() {}
 
   onAddPost() {
-    this.newPost = this.enteredValue;
+    if (this.formGroup.valid) {
+      this.postCreated.emit(this.formGroup.value);
+    }
   }
 }

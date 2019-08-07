@@ -1,8 +1,13 @@
-<mat-card>
+<mat-card [formGroup]="formGroup">
   <mat-form-field>
-    <textarea matInput rows="6" [(ngModel)]="enteredValue"></textarea>
+    <mat-label>Title</mat-label>
+    <input matInput type="text" formControlName="title" />
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Content</mat-label>
+    <textarea matInput rows="6" [(ngModel)]="enteredValue" formControlName="content"></textarea>
   </mat-form-field>
   <br />
   <button mat-raised-button color="accent" (click)="onAddPost()">Add Post</button>
 </mat-card>
-<p>{{ newPost }}</p>
+<p *ngIf="!formGroup.valid">Title or content missing</p>
