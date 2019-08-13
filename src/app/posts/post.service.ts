@@ -40,7 +40,7 @@ export class PostService {
     newPost.append('title', post.title);
     newPost.append('content', post.content);
     newPost.append('image', post.image, post.title);
-    this.http.post<{ message: string; postId: string }>('http://localhost:3000/api/posts', post).subscribe(res => {
+    this.http.post<{ message: string; postId: string }>('http://localhost:3000/api/posts', newPost).subscribe(res => {
       const resPost: Post = { id: res.postId, title: post.title, content: post.content };
       this.postsUpdate.next([...this.posts]);
       this.router.navigate(['/']);
