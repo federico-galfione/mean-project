@@ -1,6 +1,7 @@
 interface Post {
-  id?: string;
+  id: string;
   title: string;
   content: string;
   image?: any;
+  imagePath: string;
 }

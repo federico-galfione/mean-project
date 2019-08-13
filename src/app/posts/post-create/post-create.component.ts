@@ -32,8 +32,12 @@ export class PostCreateComponent implements OnInit {
         this.isLoading = true;
         this.postSvc.getPost(this.postId).subscribe(postData => {
           this.isLoading = false;
-          this.post = { id: postData._id, title: postData.title, content: postData.content };
-          this.formGroup.patchValue(this.post);
+          this.post = { id: postData._id, title: postData.title, content: postData.content, imagePath: postData.imagePath };
+          this.formGroup.setValue({
+            title: this.post.title,
+            content: this.post.content,
+            image: this.post.imagePath
+          });
         });
       } else {
         this.mode = 'create';

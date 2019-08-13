@@ -6,6 +6,7 @@ import {
   MatCardModule,
   MatExpansionModule,
   MatInputModule,
+  MatPaginatorModule,
   MatProgressSpinnerModule,
   MatToolbarModule
 } from '@angular/material';
@@ -32,6 +33,7 @@ import { PostService } from './posts/post.service';
     MatToolbarModule,
     MatExpansionModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
     HttpClientModule
   ],
   providers: [PostService],
