@@ -1,22 +1,24 @@
-<mat-card [formGroup]="formGroup">
+<mat-card>
   <mat-spinner *ngIf="isLoading"></mat-spinner>
-  <mat-form-field *ngIf="!isLoading">
-    <mat-label>Title</mat-label>
-    <input matInput type="text" formControlName="title" required />
-    <mat-error *ngIf="!formGroup.get('title').valid">Please enter a title</mat-error>
-  </mat-form-field>
-  <div>
-    <button mat-stroked-button (click)="filePicker.click()" type="button">Pick Image</button
-    ><input #filePicker type="file" (change)="onImagePicked($event)" />
-  </div>
-  <div class="image-preview" *ngIf="imagePreview && imagePreview !== '' && formGroup.get('image').valid">
-    <img [src]="imagePreview" [alt]="formGroup.value.title" />
-  </div>
-  <mat-form-field>
-    <mat-label>Content</mat-label>
-    <textarea matInput rows="6" formControlName="content" required></textarea>
-    <mat-error *ngIf="!formGroup.get('content').valid">Please enter a content</mat-error>
-  </mat-form-field>
-  <br />
-  <button mat-raised-button color="accent" (click)="onSavePost()">Save Post</button>
+  <form [formGroup]="formGroup" *ngIf="!isLoading">
+    <mat-form-field>
+      <mat-label>Title</mat-label>
+      <input matInput type="text" formControlName="title" required />
+      <mat-error *ngIf="!formGroup.get('title').valid">Please enter a title</mat-error>
+    </mat-form-field>
+    <div>
+      <button mat-stroked-button (click)="filePicker.click()" type="button">Pick Image</button
+      ><input #filePicker type="file" (change)="onImagePicked($event)" />
+    </div>
+    <div class="image-preview" *ngIf="imagePreview && imagePreview !== '' && formGroup.get('image').valid">
+      <img [src]="imagePreview" [alt]="formGroup.value.title" />
+    </div>
+    <mat-form-field>
+      <mat-label>Content</mat-label>
+      <textarea matInput rows="6" formControlName="content" required></textarea>
+      <mat-error *ngIf="!formGroup.get('content').valid">Please enter a content</mat-error>
+    </mat-form-field>
+    <br />
+    <button mat-raised-button color="accent" (click)="onSavePost()">Save Post</button>
+  </form>
 </mat-card>
