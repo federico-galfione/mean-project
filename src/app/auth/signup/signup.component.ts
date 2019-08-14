@@ -20,10 +20,10 @@ export class SignupComponent implements OnInit {
   ngOnInit() {}
 
   onSignup() {
-    console.log('SIGNUP!', this.formGroup, this.formGroup.invalid);
     if (this.formGroup.invalid) {
       return;
     }
+    this.isLoading = true;
     this.authSvc.createUser(this.formGroup.value.email, this.formGroup.value.password);
   }
 }

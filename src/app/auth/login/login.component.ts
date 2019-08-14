@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
     if (this.formGroup.invalid) {
       return;
     }
+    this.isLoading = true;
     this.authSvc.login(this.formGroup.value.email, this.formGroup.value.password);
   }
 }
