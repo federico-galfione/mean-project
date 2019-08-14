@@ -2,12 +2,12 @@
   <mat-spinner *ngIf="isLoading"></mat-spinner>
   <form [formGroup]="formGroup" *ngIf="!isLoading" (submit)="onLogin()">
     <mat-form-field>
-      <input matInput type="email" placeholder="E-Mail" />
-      <mat-error *ngIf="false">Please enter a valid email</mat-error>
+      <input matInput formControlName="email" type="email" placeholder="E-Mail" />
+      <mat-error *ngIf="!formGroup.get('email').valid">Please enter a valid email</mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput type="password" placeholder="Password" />
-      <mat-error *ngIf="false">Please enter a valid password</mat-error>
+      <input matInput formControlName="password" type="password" placeholder="Password" />
+      <mat-error *ngIf="!formGroup.get('password').valid">Please enter a valid password</mat-error>
     </mat-form-field>
     <button mat-raised-button color="accent" type="submit">Login</button>
   </form>
