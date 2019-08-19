@@ -44,7 +44,7 @@ exports.modifyPost = (req, res, next) => {
   });
   Post.updateOne({ _id: req.params.id, creator: req.userData.userId }, post)
     .then(result => {
-      if (result.nModified > 0) {
+      if (result.n > 0) {
         res.status(200).json({ message: 'Updated successfull!' });
       } else {
         res.status(401).json({ message: 'Not authorized!' });
@@ -98,20 +98,21 @@ exports.getPosts = (req, res, next) => {
         message: 'Fetching posts failed!'
       });
     });
+};
 
-  exports.getPost = (req, res, next) => {
-    Post.findById(req.params.id)
-      .then(post => {
-        if (post) {
-          res.status(200).json(post);
-        } else {
-          res.status(404).json({ message: 'Post not found!' });
-        }
-      })
-      .catch(err => {
-        res.status(500).json({
-          message: 'Fetching posts failed!'
-        });
+exports.getPost = (req, res, next) => {
+  console.log(req);
+  Post.findById(req.params.id)
+    .then(post => {
+      if (post) {
+        res.status(200).json(post);
+      } else {
+        res.status(404).json({ message: 'Post not found!' });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        message: 'Fetching posts failed!'
       });
-  };
+    });
 };
