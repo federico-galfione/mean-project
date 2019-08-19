@@ -4,4 +4,5 @@ interface Post {
   content: string;
   image?: any;
   imagePath: string;
+  creator: string;
 }

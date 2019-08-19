@@ -17,7 +17,7 @@ export class AuthService {
     return this.token;
   }
 
-  getAuthStatusLister() {
+  getAuthStatusListener() {
     return this.authStatusListener.asObservable();
   }
 
@@ -31,16 +31,20 @@ export class AuthService {
 
   createUser(email: string, password: string) {
     const authData: AuthData = { email, password };
-    this.http.post('http://localhost:3000/api/users/signup', authData).subscribe(response => {
-      console.log(response);
-    });
+    this.http.post('http://localhost:3000/api/users/signup', authData).subscribe(
+      () => {
+        this.router.navigate(['/']);
+      },
+      error => {
+        this.authStatusListener.next(false);
+      }
+    );
   }
 
   login(email: string, password: string) {
     const authData: AuthData = { email, password };
-    this.http
-      .post('http://localhost:3000/api/users/login', authData)
-      .subscribe((response: { token: string; expiresIn: number; userId: string }) => {
+    this.http.post('http://localhost:3000/api/users/login', authData).subscribe(
+      (response: { token: string; expiresIn: number; userId: string }) => {
         this.token = response.token;
         if (this.token) {
           const expiresIn = response.expiresIn;
@@ -53,7 +57,12 @@ export class AuthService {
           this.saveAuthData(this.token, expirationDate, this.userId);
         }
         this.router.navigate(['/']);
-      });
+      },
+      error => {
+        console.log('Error OCCURED!', error);
+        this.authStatusListener.next(false);
+      }
+    );
   }
 
   autoAuthUser() {

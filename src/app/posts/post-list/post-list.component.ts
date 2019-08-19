@@ -32,7 +32,7 @@ export class PostListComponent implements OnInit, OnDestroy {
       this.posts = postsData.posts;
       this.isLoading = false;
     });
-    this.authStatusSub = this.authSvc.getAuthStatusLister().subscribe(isAuth => {
+    this.authStatusSub = this.authSvc.getAuthStatusListener().subscribe(isAuth => {
       this.userIsAuth = isAuth;
       this.userId = this.authSvc.getUserId();
     });
@@ -45,9 +45,12 @@ export class PostListComponent implements OnInit, OnDestroy {
 
   onDelete(postId: string) {
     this.isLoading = true;
-    this.postSvc.deletePost(postId).subscribe(() => {
-      this.postSvc.getPosts(this.postsPerPage, this.currentPage);
-    });
+    this.postSvc.deletePost(postId).subscribe(
+      () => {
+        this.postSvc.getPosts(this.postsPerPage, this.currentPage);
+      },
+      () => (this.isLoading = false)
+    );
   }
 
   onChangedPage(pageData: PageEvent) {

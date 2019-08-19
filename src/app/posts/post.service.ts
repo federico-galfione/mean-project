@@ -58,7 +58,7 @@ export class PostService {
       newPost.append('content', post.content);
       newPost.append('image', post.image, post.title);
     } else {
-      newPost = { id: post.id, title: post.title, content: post.content, imagePath: post.image };
+      newPost = { id: post.id, title: post.title, content: post.content, imagePath: post.image, creator: post.creator };
     }
     this.http.put('http://localhost:3000/api/posts/' + post.id, newPost).subscribe((response: Post) => {
       this.router.navigate(['/']);
