@@ -9,7 +9,7 @@ const usersRoutes = require('./routes/users');
 const app = express();
 
 mongoose
-  .connect('mongodb://fedeg:mean2019@localhost')
+  .connect('mongodb://fedeg:' + process.env.MONGO_ATLAS_PW + '@localhost')
   .then(() => console.log('Connected to database!'))
   .catch(() => console.log('Connection failed!'));
 

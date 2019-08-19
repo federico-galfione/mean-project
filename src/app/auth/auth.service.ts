@@ -2,9 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { AuthData } from './auth-data.model';
 
-@Injectable()
+const BACKED_URL = environment.apiUrl + '/users/';
+
+@Injectable({ providedIn: 'root' })
 export class AuthService {
   private token: string;
   private tokenTimer: any;
@@ -31,7 +34,7 @@ export class AuthService {
 
   createUser(email: string, password: string) {
     const authData: AuthData = { email, password };
-    this.http.post('http://localhost:3000/api/users/signup', authData).subscribe(
+    this.http.post(BACKED_URL + '/signup', authData).subscribe(
       () => {
         this.router.navigate(['/']);
       },
@@ -43,7 +46,7 @@ export class AuthService {
 
   login(email: string, password: string) {
     const authData: AuthData = { email, password };
-    this.http.post('http://localhost:3000/api/users/login', authData).subscribe(
+    this.http.post(BACKED_URL + '/login', authData).subscribe(
       (response: { token: string; expiresIn: number; userId: string }) => {
         this.token = response.token;
         if (this.token) {
@@ -67,13 +70,15 @@ export class AuthService {
 
   autoAuthUser() {
     const authInformation = this.getAuthData();
-    const now = new Date();
-    const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
-    if (expiresIn > 0) {
-      this.token = authInformation.token;
-      this.userId = authInformation.userId;
-      this.setAuthTimer(expiresIn / 1000);
-      this.authStatusListener.next(true);
+    if (authInformation) {
+      const now = new Date();
+      const expiresIn = authInformation.expirationDate.getTime() - now.getTime();
+      if (expiresIn > 0) {
+        this.token = authInformation.token;
+        this.userId = authInformation.userId;
+        this.setAuthTimer(expiresIn / 1000);
+        this.authStatusListener.next(true);
+      }
     }
   }
 
